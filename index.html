@@ -1,9 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Tre Toby Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -230,8 +225,6 @@ footer{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wrap:
 }
 @media (prefers-reduced-motion:reduce){.led,.drive::after,.cursor{animation:none!important}}
 </style>
-</head>
-<body>
 
 <div class="floor" aria-hidden="true"></div>
 <canvas id="net" aria-hidden="true"></canvas>
@@ -273,7 +266,7 @@ footer{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wrap:
     </div>
     <div class="rackrow">
     <div class="cab" role="group" aria-label="Projects and accomplishments rack">
-      <div class="cab-top"><span>A01 · 12U</span><span>Front</span></div>
+      <div class="cab-top"><span id="rackLabel">A01 · 12U</span><span>Front</span></div>
       <div class="bay">
         <div class="nums" id="numsL" aria-hidden="true"></div>
         <div class="holes" id="holesL" aria-hidden="true"></div>
@@ -352,6 +345,9 @@ const PROJECTS = [
   { name:"WFH Request App", kind:"proj", tag:"Workplace tool", status:"wip", ru:3,
     text:"Designed and developed a low-code workforce management solution using Microsoft Power Platform to streamline the employee work-from-home request process and improve operational visibility for managers.\n\nThe application provides a centralized platform for employees to submit requests, track approval status, review historical submissions, and view staffing coverage. Manager-facing capabilities include request review, approval and denial workflows, staffing impact analysis, and real-time visibility into team availability.\n\nThe solution leverages Microsoft Power Apps, Dataverse, Power Automate, and Microsoft Teams to automate approval processes, reduce administrative overhead, improve communication, and enhance workforce planning. Automated notifications and workflow integrations ensure timely decision-making while maintaining transparency between employees and leadership.\n\nThis project demonstrates skills in business process analysis, requirements gathering, solution architecture, workflow automation, user experience design, data management, stakeholder engagement, and project delivery within the Microsoft ecosystem.",
     stack:["Power Apps","Dataverse","Power Automate","Teams"], link:"" },
+  { name:"CAPM Field Kit", kind:"proj", tag:"Study tool · Live", status:"ok", ru:2,
+    text:"An interactive study site for the PMI CAPM exam, built while preparing for the certification and shared with peers studying for it.\n\nEvery major project document (charter, WBS, RACI, risk register, requirements traceability matrix and more) is filled out for one realistic datacenter deployment, so each artifact is shown in context instead of as a definition. Hands-on simulators cover critical path scheduling, earned value management, Kanban WIP limits, burndown patterns and exam-style scenarios, and every page opens with a plain-English explanation.\n\nBuilt as a single-page web app with HTML, CSS and JavaScript and hosted on GitHub Pages.",
+    stack:["Project management","CAPM","Agile","HTML/CSS/JS","GitHub Pages"], link:"https://tretoby.github.io/capm-field-kit/Index.html", code:"https://github.com/tretoby/capm-field-kit" },
   { name:"Identity Management with Entra ID", kind:"proj", tag:"Cloud security lab", status:"done", ru:2,
     text:"Implemented a secure identity and access management solution in Microsoft Entra ID (formerly Azure AD). Created a tenant with test users and groups, delegated the User Administrator role, enabled self-service password reset with email verification, and enforced a Conditional Access policy that blocks sign-ins from outside the United States.\n\nEach configuration was validated end to end by signing in as the affected users, confirming role permissions, the password reset flow and policy enforcement.",
     stack:["Entra ID","Conditional Access","SSPR","Role-based access"], link:"https://github.com/tretoby/Identity-Management-with-Azure-AD" },
@@ -371,6 +367,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 /* Rails: U numbers count up from the bottom */
 const rack=Math.max(RACK_U, 2+PROJECTS.reduce((n,p)=>n+p.ru,0));
 ["numsL","numsR"].forEach(id=>{document.getElementById(id).innerHTML=Array.from({length:rack},(_,i)=>`<span>${rack-i}</span>`).join("")});
+document.getElementById("rackLabel").textContent="A01 · "+rack+"U";
 ["holesL","holesR"].forEach(id=>{document.getElementById(id).innerHTML="<i><b></b></i>".repeat(rack)});
 
 const slots=document.getElementById("slots");
@@ -417,7 +414,7 @@ function inspectHTML(i){
   return `<h4>${esc(p.name)}</h4>
     ${p.text.split(/\n\n+/).map(t=>`<p>${esc(t)}</p>`).join("")}
     <div><span class="k">type:</span> ${kinds[p.kind].toLowerCase()} &nbsp; <span class="k">status:</span> ${labels[p.status].toLowerCase()} &nbsp; <span class="k">stack:</span> ${p.stack.map(esc).join(", ").toLowerCase()}</div>
-    ${p.link?`<div><span class="k">link:</span> <a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.link.replace(/^https?:\/\//,""))}</a></div>`:""}<div style="height:10px"></div>`;
+    ${p.link?`<div><span class="k">link:</span> <a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.link.replace(/^https?:\/\//,""))}</a></div>`:""}${p.code?`<div><span class="k">code:</span> <a href="${esc(p.code)}" target="_blank" rel="noopener">${esc(p.code.replace(/^https?:\/\//,""))}</a></div>`:""}<div style="height:10px"></div>`;
 }
 function select(i,range,top){
   devs.forEach((d,k)=>d.setAttribute("aria-pressed",String(k===i)));
@@ -567,5 +564,4 @@ const WEB3FORMS_KEY="d0c9269e-6270-4316-9550-98fca75041ea";
 })();
 </script>
 
-</body>
-</html>
+</body></html>
