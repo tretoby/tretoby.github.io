@@ -564,10 +564,11 @@ const WEB3FORMS_KEY="d0c9269e-6270-4316-9550-98fca75041ea";
         body:JSON.stringify({access_key:WEB3FORMS_KEY,subject:"New message from your portfolio",from_name:"Portfolio site",
           name:document.getElementById("f-name").value.trim(),email:document.getElementById("f-email").value.trim(),message:document.getElementById("f-msg").value.trim()})});
       const j=await r.json().catch(()=>({}));
-      if(!r.ok||j.success===false)throw new Error("fail");
+      if(!r.ok||j.success===false)throw new Error(j.message||("server error "+r.status));
       f.reset();say("Message sent. I'll get back to you soon.","ok");
     }catch(err){
-      say("Couldn't send right now. Copy my email above and reach me directly.","err");
+      const why=err.message==="nokey"?"form not set up":(err instanceof TypeError?"connection blocked":err.message);
+      say("Couldn't send right now ("+why+"). Copy my email above and reach me directly.","err");
     }finally{btn.disabled=false;btn.textContent="Send message"}
   });
 })();
