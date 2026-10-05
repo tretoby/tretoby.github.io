@@ -185,7 +185,6 @@ h2{font:800 clamp(30px,5vw,44px)/1 var(--display);letter-spacing:.01em;text-tran
 .msg{margin-top:20px;max-width:760px;background:var(--chassis);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:14px}
 .msg-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px dashed var(--line)}
 .msg-to{font:13px var(--mono);color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
-.msg-to #emailAddr{color:var(--fg);user-select:all;overflow-wrap:anywhere}
 .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px}
 .fld{display:grid;gap:6px;min-width:0}
 .fld input,.fld textarea{font:15px/1.5 var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px 12px;width:100%;box-sizing:border-box;resize:vertical}
@@ -321,7 +320,7 @@ footer{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wrap:
     <form class="msg" id="msgForm" novalidate>
       <div class="msg-head">
         <span class="status"><i class="led ok"></i>Link up</span>
-        <span class="msg-to">To: <span id="emailAddr">tremtoby@gmail.com</span> <button type="button" class="copy" id="copyEmail">Copy</button></span>
+        <span class="msg-to">Questions, collaboration or networking welcome</span>
       </div>
       <div class="row">
         <label class="fld"><span class="label">Name</span><input id="f-name" name="name" type="text" autocomplete="name" required></label>
@@ -451,7 +450,7 @@ AB-400   planned`,
 next     Technical & Operational Leadership`,
   contact:()=>`linkedin  <a href="${LINKEDIN}" target="_blank" rel="noopener">linkedin.com/in/tre-toby</a>
 github    <a href="https://github.com/tretoby" target="_blank" rel="noopener">github.com/tretoby</a>
-email     tremtoby@gmail.com`,
+message   use the form at the bottom of the page`,
 };
 const ALIAS={ls:"projects",ll:"projects",about:"whoami",cls:"clear","?":"help",linkedin:"contact",github:"contact",email:"contact",resume:"career"};
 term.addEventListener("submit",e=>{
@@ -537,13 +536,7 @@ devs[0].click();
   addEventListener("scroll",update,{passive:true});addEventListener("resize",update);update();
 })();
 
-/* Copy email */
-(()=>{const b=document.getElementById("copyEmail"),a=document.getElementById("emailAddr");
-b.addEventListener("click",()=>{
-  const done=()=>{b.textContent="Copied";b.classList.add("done");setTimeout(()=>{b.textContent="Copy";b.classList.remove("done")},1800)};
-  const fallback=()=>{const r=document.createRange();r.selectNodeContents(a);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);b.textContent="Selected";};
-  try{navigator.clipboard.writeText(a.textContent).then(done,fallback)}catch(e){fallback()}
-});})();
+
 
 /* Message form. Sends through Web3Forms (free). Paste your access key below. */
 const WEB3FORMS_KEY="d0c9269e-6270-4316-9550-98fca75041ea";
@@ -568,7 +561,7 @@ const WEB3FORMS_KEY="d0c9269e-6270-4316-9550-98fca75041ea";
       f.reset();say("Message sent. I'll get back to you soon.","ok");
     }catch(err){
       const why=err.message==="nokey"?"form not set up":(err instanceof TypeError?"connection blocked":err.message);
-      say("Couldn't send right now ("+why+"). Copy my email above and reach me directly.","err");
+      say("Couldn't send right now ("+why+"). Please reach me on LinkedIn instead.","err");
     }finally{btn.disabled=false;btn.textContent="Send message"}
   });
 })();
